@@ -12,10 +12,14 @@ const main = async () => {
     const details = await getAccountDetails();
     console.log('Retrieved details:\n', details);
 
-    const numberDetails = await getAccountNumberDetails('xxx');
+    const numberDetails = await getAccountNumberDetails(
+      '8EF7BDD1A8150D90A5F1D8B7E48BC912'
+    );
     console.log('Retrieved number details:\n', numberDetails);
 
-    const transactions = await getAccountTransactions('xxx');
+    const transactions = await getAccountTransactions(
+      '8EF7BDD1A8150D90A5F1D8B7E48BC912'
+    );
     console.log('Retrieved transactions:\n', transactions);
   } catch (error) {
     console.log(error);

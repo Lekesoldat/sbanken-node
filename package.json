@@ -1,10 +1,12 @@
 {
   "name": "sbanken-node",
   "version": "1.0.0",
-  "main": "index.mjs",
   "repository": "git@github.com:Lekesoldat/sbanken-node.git",
   "author": "Magnus Lauritzen Holtet <magnulho@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node ./sbanken/index.mjs"
+  },
   "dependencies": {
     "btoa": "^1.2.1",
     "dotenv": "^8.2.0",
