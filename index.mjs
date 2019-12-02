@@ -2,14 +2,24 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import {
-  getAccessToken,
   getAccountDetails,
   getAccountNumberDetails,
   getAccountTransactions
 } from './Api.mjs';
 
-getAccountDetails(process.env.ACCESS_TOKEN);
+const main = async () => {
+  try {
+    const details = await getAccountDetails();
+    console.log('Retrieved details:\n', details);
 
-getAccountNumberDetails('Your Account Number', process.env.ACCESS_TOKEN);
+    const numberDetails = await getAccountNumberDetails('xxx');
+    console.log('Retrieved number details:\n', numberDetails);
 
-getAccountTransactions('Your Account Number', process.env.ACCESS_TOKEN);
+    const transactions = await getAccountTransactions('xxx');
+    console.log('Retrieved transactions:\n', transactions);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+main();
