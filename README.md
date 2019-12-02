@@ -16,7 +16,7 @@ SECRET=
 
 ```zsh
 $ yarn install # Install dependencies
-$ node . # Run index.mjs
+$ yarn start # Run index.mjs
 ```
 
 ## Usage
