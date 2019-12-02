@@ -28,6 +28,7 @@ Code found in `index.mjs` aswell.
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Import desired functions
 import {
   getAccountDetails,
   getAccountNumberDetails,
