@@ -2,81 +2,72 @@ import { BASE_URL, ACCESS_TOKEN_ENDPOINT } from './constants.mjs';
 import fetch from 'node-fetch';
 import btoa from 'btoa';
 
+let token = null;
+
 export const getAccessToken = async () => {
-  const authHeader = btoa(
-    encodeURIComponent(process.env.CLIENT_ID) +
-      ':' +
-      encodeURIComponent(process.env.SECRET)
-  );
-  console.log(authHeader);
+  if (!token) {
+    console.log('Fetching access token...');
 
-  const response = await fetch(ACCESS_TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${authHeader}`,
-      Accept: 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-      customerId: process.env.USER_ID
-    },
-    body: 'grant_type=client_credentials'
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Access Token Data: ', data);
-      return data;
-    })
-    .catch(err => console.log('Error: ', err));
+    const authHeader = btoa(
+      encodeURIComponent(process.env.CLIENT_ID) +
+        ':' +
+        encodeURIComponent(process.env.SECRET)
+    );
 
-  return response;
+    const res = await fetch(ACCESS_TOKEN_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${authHeader}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+        customerId: process.env.USER_ID
+      },
+      body: 'grant_type=client_credentials'
+    });
+
+    token = await res.json();
+  }
+  return token.access_token;
 };
 
-export const getAccountDetails = async accesToken => {
-  return await fetch(`${BASE_URL}/api/v1/accounts/`, {
+export const getAccountDetails = async () => {
+  console.log('Fetching account details...');
+  const res = await fetch(`${BASE_URL}/api/v1/accounts/`, {
     headers: {
-      Authorization: `Bearer ${accesToken}`,
+      Authorization: `Bearer ${await getAccessToken()}`,
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
       customerId: process.env.USER_ID
     }
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Account Details: ', data);
-      return data;
-    })
-    .catch(err => console.log('Error: ', err));
+  });
+  return await res.json();
 };
 
-export const getAccountNumberDetails = async (accountId, accesToken) => {
-  return await fetch(`${BASE_URL}/api/v1/accounts/${accountId}`, {
+export const getAccountNumberDetails = async accountId => {
+  console.log('Fetching account number details...');
+
+  const res = await fetch(`${BASE_URL}/api/v1/accounts/${accountId}`, {
     headers: {
-      Authorization: `Bearer ${accesToken}`,
+      Authorization: `Bearer ${await getAccessToken()}`,
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
       customerId: process.env.USER_ID
     }
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Account Number Details: ', data);
-      return data;
-    })
-    .catch(err => console.log('Error: ', err));
+  });
+
+  return await res.json();
 };
 
-export const getAccountTransactions = async (accountId, accesToken) => {
-  return await fetch(`${BASE_URL}/api/v1/transactions/${accountId}`, {
+export const getAccountTransactions = async accountId => {
+  console.log('Fetching account transactions...');
+  const res = await fetch(`${BASE_URL}/api/v1/transactions/${accountId}`, {
     headers: {
-      Authorization: `Bearer ${accesToken}`,
+      Authorization: `Bearer ${await getAccessToken()}`,
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
       customerId: process.env.USER_ID
     }
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log('Account Number Details: ', data);
-      return data;
-    })
-    .catch(err => console.log('Error: ', err));
+  });
+
+  return await res.json();
 };
