@@ -21,16 +21,33 @@ $ node . # Run index.mjs
 
 ## Usage
 
+Code found in `index.mjs` aswell.
+
 ```javascript
-// Import as early as possible
+// Import as early as possible.
 import dotenv from 'dotenv';
 dotenv.config();
 
-// Make use of the following functionalities
 import {
-  getAccessToken,
   getAccountDetails,
   getAccountNumberDetails,
   getAccountTransactions
 } from './Api.mjs';
+
+const main = async () => {
+  try {
+    const details = await getAccountDetails();
+    console.log('Retrieved details:\n', details);
+
+    const numberDetails = await getAccountNumberDetails('YourAccountId');
+    console.log('Retrieved number details:\n', numberDetails);
+
+    const transactions = await getAccountTransactions('YourAccountId');
+    console.log('Retrieved transactions:\n', transactions);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+main();
 ```
