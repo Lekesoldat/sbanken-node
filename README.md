@@ -1,6 +1,6 @@
-# S'banken-node
+# 🏦 S'banken-node
 
-A package for communicating with the Sbanken API.
+A package for communicating with the S´banken API. 
 
 ## Setup
 
